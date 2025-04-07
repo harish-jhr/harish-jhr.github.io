@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GravLensDiffusion</title>
+    <style>
+        :root {
+            --background-warm: #fff5e6;
+            --text-dark: #2d2d2d;
+            --text-secondary: #666666;
+            --accent-brown: #8B4513;
+            --highlight-bg: #fff9f0;
+            --border-color: rgba(139, 69, 19, 0.2);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background: var(--background-warm);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-brown);
+            margin: 2rem 0;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-brown);
+            margin-top: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            margin-top: 2rem;
+            font-size: 1.4rem;
+        }
+
+        .highlight {
+            background: var(--highlight-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--accent-brown);
+        }
+
+        .results-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .results-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sample-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sample-images img, .results-text img {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .bold {
+            color: var(--accent-brown);
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin: 1rem 0;
+        }
+
+        a {
+            color: var(--accent-brown);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1>GravLensDiffusion</h1>
+
+        <h2>Overview</h2>
+        <p>GravLensDiffusion is a deep learning project that generates high-quality images of Strong Gravitational Lensing using Deep Generative Modeling, specifically Diffusion Models. The project implements a DDPM (Denoising Diffusion Probabilistic Model) following the seminal paper on DDPMs closely, trained on a dataset of 10,000 strong lensing images. This model tackles data scarcity and imbalance, generating high-fidelity images to support astrophysical research and automated classification.</p>
+
+        <div class="highlight">
+            <p>Strong gravitational lensing serves as a crucial probe into dark matter substructure, helping us better understand its fundamental nature. While traditional simulations are computationally intensive and time-consuming, our diffusion-based approach offers a faster, more efficient alternative for generating realistic lensing images. This project specifically focuses on implementing a DDPM to generate high-quality simulations that can potentially augment existing datasets and support future research in gravitational lensing analysis.</p>
+        </div>
+
+        <h2>Implementation Details</h2>
+        <ul>
+            <li><span class="bold">Model</span>: Implemented a DDPM (Denoising Diffusion Probabilistic Model)</li>
+            <li><span class="bold">Dataset</span>: Trained on 10,000 strong lensing images</li>
+            <li><span class="bold">Training</span>: 40 epochs on Google Colab's free GPU compute</li>
+            <li><span class="bold">Evaluation</span>: FID (Fréchet Inception Distance) evaluation on 100 generated images</li>
+            <li><span class="bold">Storage</span>: Project directory hosted on Google Drive</li>
+        </ul>
+
+        <h2>Results</h2>
+        <div class="results-section">
+            <div class="results-text">
+                <h3>Generation Process</h3>
+                <p>The GIF shows the progression of 100 random noise samples to 100 generated images of Strong Gravitational Lensing over 1000 timesteps:</p>
+                <img src="./diffusion2.gif" alt="Generation Process" style="width: 100%; margin-top: 1rem;">
+            </div>
+            <div class="sample-images">
+                <img src="./diffusion.gif" alt="Sample Generated Image">
+            </div>
+        </div>
+
+        <h2>Performance</h2>
+        <ul>
+            <li><span class="bold">FID Score</span>: 27.93 (scores below 20 are generally considered acceptable)</li>
+            <li><span class="bold">Limitations</span>:
+                <ul>
+                    <li>Evaluation performed on only 100 generated samples</li>
+                    <li>Model trained for only 40 epochs due to GPU restrictions</li>
+                    <li>Input images downscaled from 150 to 28 spatial dimensions due to memory constraints</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Future Improvements</h2>
+        <ul>
+            <li>Conduct FID analysis on a larger sample size</li>
+            <li>Train the model for more epochs</li>
+            <li>Use higher resolution input images</li>
+            <li>These improvements are expected to further reduce the FID score</li>
+        </ul>
+
+        <h2>Acknowledgements</h2>
+        <ul>
+            <li>U-Net model implementation inspired by: <a href="https://github.com/explainingai-code/DDPM-Pytorch" target="_blank">DDPM-Pytorch</a></li>
+            <li>FID score calculation: <a href="https://github.com/mseitzer/pytorch-fid" target="_blank">pytorch-fid</a></li>
+        </ul>
+    </div>
+</body>
+</html> 

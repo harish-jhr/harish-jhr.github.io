@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GravLensNet</title>
+    <style>
+        :root {
+            --background-warm: #fff5e6;
+            --text-dark: #2d2d2d;
+            --text-secondary: #666666;
+            --accent-brown: #8B4513;
+            --highlight-bg: #fff9f0;
+            --border-color: rgba(139, 69, 19, 0.2);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background: var(--background-warm);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-brown);
+            margin: 2rem 0;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-brown);
+            margin-top: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            margin-top: 2rem;
+            font-size: 1.4rem;
+        }
+
+        .highlight {
+            background: var(--highlight-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--accent-brown);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .results-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--highlight-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .metrics-table th, .metrics-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .metrics-table th {
+            background: rgba(139, 69, 19, 0.1);
+            color: var(--accent-brown);
+            font-weight: 600;
+        }
+
+        .metrics-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .bold {
+            color: var(--accent-brown);
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin: 1rem 0;
+        }
+
+        a {
+            color: var(--accent-brown);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1>GravLensNet</h1>
+
+        <h2>Overview</h2>
+        <p>This project implements a Deep Residual Learning approach to classify Strong Gravitational Lensing images into three categories based on their substructure. A 20-layer ResNet model was trained on a dataset of 30,000 images (split across training, validation, and test sets). The model was optimized using data augmentation, L2 regularization, and a learning rate scheduler that reduces LR when validation loss plateaus.</p>
+
+        <div class="highlight">
+            <p>The final trained model achieved an impressive 89.6% accuracy on the test set, with high AUC scores across all three classes, demonstrating robust classification performance for gravitational lensing substructure analysis.</p>
+        </div>
+
+        <h2>Implementation Details</h2>
+        <ul>
+            <li><span class="bold">Model Architecture</span>: Custom 20-layer ResNet</li>
+            <li><span class="bold">Dataset Size</span>: 30,000 images (train/val/test split)</li>
+            <li><span class="bold">Optimization</span>: Data augmentation, L2 regularization, LR scheduler</li>
+            <li><span class="bold">Training</span>: 20 epochs on Google Colab's GPU</li>
+            <li><span class="bold">Evaluation</span>: Accuracy, Loss curves, ROC-AUC analysis</li>
+        </ul>
+
+        <h2>Results</h2>
+        <div class="results-grid">
+            <div>
+                <h3>Performance Metrics</h3>
+                <table class="metrics-table">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Testset accuracy (best model)</td>
+                        <td>89.6%</td>
+                    </tr>
+                    <tr>
+                        <td>AUC (Class 0 = 'no')</td>
+                        <td>0.987</td>
+                    </tr>
+                    <tr>
+                        <td>AUC (Class 1 = 'sphere')</td>
+                        <td>0.979</td>
+                    </tr>
+                    <tr>
+                        <td>AUC (Class 2 = 'vort')</td>
+                        <td>0.968</td>
+                    </tr>
+                </table>
+                <img src="./sample.png" alt="ROC Curves" class="results-image">
+            </div>
+            <div>
+                <h3>ROC Curves</h3>
+                <img src="./ROC.png" alt="ROC Curves" class="results-image">
+            </div>
+        </div>
+
+        <div class="results-grid">
+            <div>
+                <h3>Training Progress</h3>
+                <img src="./progress.png" alt="Training and Validation Curves" class="results-image">
+            </div>
+            <div>
+                <h3>Model Architecture</h3>
+                <p>The custom ResNet architecture follows the implementation detailed in the seminal ResNet paper, adapted specifically for gravitational lensing classification. Key features include:</p>
+                <ul>
+                    <li>20 layers with residual connections</li>
+                    <li>Modified final layer for 3-class classification</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Future Improvements</h2>
+        <ul>
+            <li>Experiment with deeper architectures (50+ layers)</li>
+            <li>Implement additional data augmentation techniques</li>
+            <li>Explore ensemble methods for improved accuracy</li>
+            <li>Investigate transfer learning from pre-trained models</li>
+        </ul>
+
+        <h2>Acknowledgements</h2>
+        <ul>
+            <li>Research paper followed: <a href="https://arxiv.org/abs/1909.07346" target="_blank">Gravitational Lensing Classification Paper</a></li>
+        </ul>
+    </div>
+</body>
+</html> 
